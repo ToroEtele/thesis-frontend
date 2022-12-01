@@ -9,6 +9,9 @@ const styles = {
 export default function Home() {
   return (
     <div className={styles.app}>
+      <Head>
+          <title>UBB Card</title>
+      </Head>
       <div className='app__effect z-0'/>
       {/* <Navbar/> */}
       <HomeContent />
