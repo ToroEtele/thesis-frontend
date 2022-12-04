@@ -1,27 +1,65 @@
-import { GoPerson } from 'react-icons/go'
+import { useState, useEffect } from 'react';
+
+import { useWeb3Provider } from '../context/Web3Context';
+import { getStudentByAddress } from '../utils/methods';
+
+import { GoPerson } from 'react-icons/go';
 
 const styles = {
-    card: 'w-[100%] h-[100%] p-[3%] card text-white font-bold flex flex-row items-center',
-    content: 'w-[95%] h-full flex flex-col',
-    address: 'text-address -rotate-90 h-[5%] w-[5%] flex items-center justify-center',
-    header: 'h-[8%] w-full flex flex-row items-center justify-between px-[4%]',
-    title: 'text-2xl',
-    design: 'w-[60%] h-[70%] bg-white design',
-    inner__content: 'w-full h-full px-[5%] flex flex-row',
-    image: 'h-full w-[32%] text-[1000%] flex items-center justify-center',
+    card: 'h-[100%] w-[100%] p-[3%] flex flex-row items-center font-bold border card',
+    content: 'h-full w-[95%] m-[3%] flex flex-col z-20',
+    address: 'h-[5%] w-[5%] flex items-center justify-center text-[90%] -rotate-90 z-10',
+    header: 'h-[8%] w-full flex flex-row items-center justify-between',
+    title: 'text-[200%]',
+    design: 'h-[80%] w-[60%] design',
+    inner__content: 'h-full w-full py-[4%] px-[5%] flex flex-row',
+    image: 'h-full w-[32%] flex items-center justify-center text-white text-[1300%]',
     data: 'h-full w-[68%] px-[8%] py-[4%]',
-    label: 'font-semibold text-xs',
-    info: 'font-normal text-xs pl-4',
-    university: 'font-normal flex items-center justify-center'
-  }
+    label: 'font-semibold text-[100%] text-gray-800',
+    info: 'font-bold text-[100%]',
+    university: 'flex items-center justify-center font-bold text-[150%]'
+}
 
 const Card = () => {
+  const [color, setColor] = useState('text-white/100');
+  const [borderColor, setBorderColor] = useState('border-white/100');
+  const [backgroundColor, setBackgroundColor] = useState('bg-gradient-to-r from-white/100');
+
+  const { isUserLoggedIn, studentInfo, setStudentInfo } = useWeb3Provider();
+
+  useEffect(() => {
+    if(isUserLoggedIn){
+
+      getStudentByAddress(setStudentInfo);
+      if(studentInfo.finished==true){
+        setColor('text-blue-700/100');
+        setBorderColor('border-blue-700/100');
+        setBackgroundColor('border-blue-700/100');
+      } else if(studentInfo.suspended==true) {
+        setColor('text-red-700/100');
+        setBorderColor('border-red-700/100');
+        setBackgroundColor('border-red-700/100');
+      } else {
+        setColor('text-green-700/100');
+        setBorderColor('border-green-700/100');
+        setBackgroundColor('bg-gradient-to-r from-green-700/100');
+      }
+    } else {
+      setStudentInfo({});
+      setColor('text-white/100');
+      setBorderColor('border-white/100');
+      setBackgroundColor('bg-gradient-to-r from-white/100');
+    }
+  }, [isUserLoggedIn])
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card + ' ' + borderColor}>
+        <div className='background'/>
+
         <div className={styles.content}>
           <div className={styles.header}>
-            <h1 className={styles.title}>student card</h1>
-            <div className={styles.design}></div>
+            <h1 className={styles.title  + ' ' + color}>student card</h1>
+            <div className={styles.design  + ' ' + backgroundColor}></div>
           </div>
 
           <div className={styles.inner__content}>
@@ -30,23 +68,23 @@ const Card = () => {
             </div>
             <div className={styles.data}>
               <h2 className={styles.label}>Name</h2>
-              <p className={styles.info}>Firstname Lastname</p>
+              <p className={styles.info + ' ' + color}>{!studentInfo.studentName ? 'Firstname Lastname' : studentInfo.studentName}</p>
               <h2 className={styles.label}>CNP</h2>
-              <p className={styles.info}>5010324142390</p>
+              <p className={styles.info + ' ' + color}>{!studentInfo.studentCNP ? 'Your CNP' : studentInfo.studentCNP}</p>
               <h2 className={styles.label}>Faculty</h2>
-              <p className={styles.info}>Facultatea de Ștințe Economice și Gesiunea Afacerilor</p>
+              <p className={styles.info + ' ' + color}>Facultatea de Ștințe Economice și Gesiunea Afacerilor</p>
               <h2 className={styles.label}>Specialization</h2>
-              <p className={styles.info}>Business Informatics</p>
+              <p className={styles.info + ' ' + color}>{!studentInfo.studentSpecializationName ? 'Your Specialization' : studentInfo.studentSpecializationName}</p>
             </div>
           </div>
 
-          <div className={styles.university}>
+          <div className={styles.university  + ' ' + color}>
             <h2>University of Babeș Bolyai</h2>
           </div>  
         </div>
 
-        <div className={styles.address}>
-          <p>0x0000000000000000000000000000000000000000</p>
+        <div className={styles.address + ' ' + color}>
+          <p>{!studentInfo.address ? '0x0000000000000000000000000000000000000000' : studentInfo.address}</p>
         </div>
       </div>
   )

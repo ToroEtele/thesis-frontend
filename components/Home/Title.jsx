@@ -9,7 +9,7 @@ const styles = {
 const Title = () => {
   return (
     <div className={styles.container}>
-        <h1 className={styles.container__title}>Decentralised Identification System</h1>
+        <h1 className={styles.container__title}>Decentralized Identification System</h1>
         <h1 className={styles.container__title}>For Univesity of Babes Bolyai</h1>
         <p className={styles.container__description}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium, laborum laudantium! Autem totam aperiam possimus voluptates repellendus sint explicabo rerum laudantium dolore amet, est optio aliquid quaerat recusandae? Reiciendis aliquam, eius, tenetur magnam cupiditate optio culpa voluptatem, aperiam quam eaque quidem consectetur. Quasi commodi, ullam suscipit similique omnis fugiat nesciunt!</p>
     </div>
