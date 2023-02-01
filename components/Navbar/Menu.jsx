@@ -12,10 +12,10 @@ const Menu = () => {
       <div className={styles.menu__logo}>
         UBB
       </div>
-      {["home", "verify", "shop", "about",].map(item => {
+      {["", "verify", "shop", "about",].map(item => {
         return (
           <Link href={`/${item}`} key={item} className={styles.menu__item}>
-            {item}
+            {item=='' ? 'home' : item}
           </Link>
         );
       })}

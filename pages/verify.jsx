@@ -1,4 +1,7 @@
+import { useState } from "react"
+
 import { Result } from "../components"
+import { getStudentByAddress, getStudentByCNP } from "../utils/public_methods"
 
 const styles = {
     verify: 'w-screen h-screen pt-[6%] px-[13%] flex flex-col bg-[#21242c]',
@@ -11,28 +14,51 @@ const styles = {
   }
 
 const Verify = () => {
+    const [user, setUser] = useState({})
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        const input = document.querySelector('#address').value;
+
+        if(!document.querySelector('#method').checked){
+            if(input.match(/^0x[a-fA-F0-9]{40}$/g)) {
+                console.log('Hello');
+                getStudentByAddress(setUser, input);
+                document.querySelector('#address').value = '';
+            } else {
+                if(input.match(/^[0-9]{13}$/g)) {
+                    document.querySelector('#address').value = '';
+                }
+            }
+        } else {
+            getStudentByCNP(setUser, input);
+            document.querySelector('#address').value = '';
+        }
+    }
+
   return (
     <div className={styles.verify}>
         <div className='app__effect z-0'/>
         <div className={styles.verify__search}>
-            <form action="" className={styles.form}>
-                <input type="text" className={styles.input}/>
+            <form action="" className={styles.form} onSubmit={handleSubmit}>
+                <input type="text" className={styles.input} id='address'/>
 
                 <div className="flex flex-row items-center">
                     <p className={styles.text}>Search by:  ADDRESS</p>
                     <label className="switch mx-4">
-                        <input type="checkbox" className="inp"/>
-                    <span className="slider round"></span>
+                        <input type="checkbox" className="inp" name="method" id="method"/>
+                        <span className="slider round"></span>
                     </label>
                     <p className={styles.text}>CNP</p>
                 </div>
 
-                <button className={styles.button}>Search</button>
+                <input className={styles.button} type='submit' onSubmit={handleSubmit} value='Search'/>
 
             </form>
         </div>
         <div className={styles.verify__results}>
-            <Result/>
+            <Result user={user}/>
         </div>
     </div>
   )
