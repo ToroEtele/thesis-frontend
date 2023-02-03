@@ -40,7 +40,7 @@ export const addNewSpecialization = async (name, symbol, duration) => {
         signer
       )
 
-      let specialization = await UBB.addSpecialization(name, symbol, duration);
+      let specialization = await UBB.addSpecializationWithFaculty(name, duration, symbol);
     } else {
       console.log(error);
     }
@@ -130,6 +130,28 @@ export const enableStudent = async (cnp) => {
       )
 
       await UBB.studentResumed(cnp);
+    } else {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const addStudent = async (name, address, cnp, specialization) => {
+  try {
+    const { ethereum } = window
+
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum)
+      const signer = provider.getSigner()
+      const UBB = new ethers.Contract(
+        constractAddress,
+        ContractAbi.abi,
+        signer
+      )
+
+      await UBB.addStudent(address, name, cnp, specialization);
     } else {
       console.log(error);
     }

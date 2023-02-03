@@ -28,8 +28,7 @@ const Card = () => {
 
   useEffect( () => {
     if(isUserLoggedIn){
-
-      async() => await getMyInfo(setStudentInfo);
+      getMyInfo(setStudentInfo);
       console.log(studentInfo);
       if(studentInfo.finished==true){
         setColor('text-blue-700/100');
@@ -50,7 +49,7 @@ const Card = () => {
       setBorderColor('border-white/100');
       setBackgroundColor('bg-gradient-to-r from-white/100');
     }
-  }, [isUserLoggedIn])
+  }, [isUserLoggedIn, studentInfo])
 
   return (
     <div className={styles.card + ' ' + borderColor}>

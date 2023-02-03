@@ -20,8 +20,8 @@ const styles = {
   run: 'flex flex-row items-center justify-center self-end h-[4vh] w-[4vh] bg-blue-700 rounded-xl color-white',
   run__logo: 'text-gray-400 text-xl',
   verify: 'flex flex-row items-center justify-center self-end h-[4vh] w-[4vh] mb-[4%] bg-blue-700 rounded-xl color-white',
-  disable: 'px-[8%] py-[2%] mt-[5%] bg-red-500 rounded-2xl text-red-800 border-2 border-red-600',
-  enable: 'px-[8%] py-[2%] mt-[5%] bg-green-500 rounded-2xl text-green-800 border-2 border-green-600',
+  disable: 'px-[8%] py-[2%] mt-[5%] rounded-2xl text-red-400 border-2 border-red-400',
+  enable: 'px-[8%] py-[2%] mt-[5%] rounded-2xl text-green-400 border-2 border-green-400',
 }
 
 const Specialization = () => {
@@ -80,6 +80,8 @@ const Specialization = () => {
     const duration = document.querySelector('#specializationDuration').value;
 
     setVerifiedValues({name: name, symbol: symbol, duration: duration});
+    console.log(initialValues);
+    console.log(verifiedValues);
 
     console.log(initialValues);
     console.log(verifiedValues);
