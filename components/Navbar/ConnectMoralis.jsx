@@ -19,7 +19,6 @@ const Connect = () => {
   const { status } = useSession();
   const { signMessageAsync } = useSignMessage();
   const { requestChallengeAsync } = useAuthRequestChallengeEvm();
-  // const { push } = useRouter();
 
   useEffect(() => {
     const handleAuth = async () => {
@@ -48,16 +47,6 @@ const Connect = () => {
   return (
     <div className={styles.connect__container}>
       <ConnectButton />
-      {status === "authenticated" ? (
-        <button
-          className={styles.connect__signout}
-          onClick={() => signOut({ redirect: "/signin" })}
-        >
-          Sign Out
-        </button>
-      ) : (
-        <></>
-      )}
     </div>
   );
 };

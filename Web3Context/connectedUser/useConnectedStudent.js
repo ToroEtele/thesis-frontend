@@ -10,10 +10,6 @@ export function useConnectedStudent() {
   const { isConnected } = useAccount();
 
   React.useEffect(() => {
-    console.log(studentInfo);
-  }, [studentInfo]);
-
-  React.useEffect(() => {
     if (isConnected) {
       try {
         const { ethereum } = window;

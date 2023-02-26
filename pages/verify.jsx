@@ -1,7 +1,6 @@
 import { useState } from "react"
 
-//import { ResultCard } from "../components"
-import { getStudentByAddress, getStudentByCNP } from "../utils/public_methods"
+import { useWeb3Provider } from "../Web3Context/Web3Context";
 import { ResultSheet } from "../components";
 
 const styles = {
@@ -16,17 +15,16 @@ const styles = {
   }
 
 const Verify = () => {
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
 
-    const handleSubmit = (e) => {
+    const {verifyByID, verifyByAddress} = useWeb3Provider();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
         const input = document.querySelector('#address').value;
-
         if(!document.querySelector('#method').checked){
             if(input.match(/^0x[a-fA-F0-9]{40}$/g)) {
-                console.log('Hello');
-                getStudentByAddress(setUser, input);
+                setUser(await verifyByAddress(input))
                 document.querySelector('#address').value = '';
             } else {
                 if(input.match(/^[0-9]{13}$/g)) {
@@ -34,7 +32,7 @@ const Verify = () => {
                 }
             }
         } else {
-            getStudentByCNP(setUser, input)
+            setUser(await verifyByID(input));
             document.querySelector('#address').value = '';
         }
     }

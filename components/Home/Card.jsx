@@ -68,8 +68,8 @@ const Card = () => {
 
         <div className={styles.inner__content}>
           <div className={styles.image}>
-            {studentInfo.studentImageIpfsUrl ? (
-              <Image className="rounded-xl" src={studentInfo.studentImageIpfsUrl} width={130} height={150}/>
+            {studentInfo.ipfsUrl ? (
+              <Image className="rounded-xl" src={studentInfo.ipfsUrl} width={130} height={150}/>
             ) : (
               <GoPerson />
             )}
