@@ -11,7 +11,7 @@ const styles = {
   specialization: 'h-[100%] w-[100%] px-[5%] flex flex-row justify-between',
   specialization__panels: 'h-[100%] w-[30%] p-[2%] bg-white/20 backdrop-blur rounded-2xl',
   panel__headers: 'h-[10%] w-[100%] flex flex-row justify-center text-white font-semibold',
-  specialization__get: 'w-[100%] h-[20%] flex flex-col',
+  faculty__add: 'w-[100%] h-[20%] flex flex-col',
   specialization__add: 'w-[100%] h-[45%] flex flex-col',
   specialization__enable: 'w-[100%] h-[20%] flex flex-col',
   inputs: 'h-[40px] outline-none mb-[6%] px-[4%] rounded',
@@ -117,34 +117,19 @@ const Specialization = () => {
   return (
     <div className={styles.specialization}>
 
-      {/* Get a Specialization */}
+      {/* Add a faculty */}
       <div className={styles.specialization__panels}>
         <div className={styles.panel__headers}>
-          <h1>Get a Specialization</h1>
+          <h1>Add new faculty</h1>
         </div>
 
-        <form onSubmit={getSpecialization} className={styles.specialization__get}>
-          <input type="text" id="specilaizationName" placeholder='Name of the Specialization' className={styles.inputs}/>
+        {/* <form onSubmit={requestAddFaculty} className={styles.faculty__add}>
+          <input type="text" id="faculty" placeholder='faculty of the Specialization' className={styles.inputs}/>
           <button className={styles.run} type='submit' onSubmit={getSpecialization}>
             <VscRunAll className={styles.run__logo}/>
           </button>
-        </form>
-
-        {
-          requestedSpecialization.specName ? (
-            <div className={styles.result}>
-              <p className={styles.label}>Name of the Specialization:</p>
-              <h2 className={styles.data}>{requestedSpecialization.specName}</h2>
-              <p className={styles.label}>The availability of the specialization:</p>
-              <h2 className={styles.data}>{requestedSpecialization.available ? 'Available' : 'Unavailable'}</h2>
-              <p className={styles.label}>Duration:</p>
-              <h2 className={styles.data}>{parseInt(requestedSpecialization.duration, 16)}</h2>
-          </div>
-          ) : (
-            <>
-            </>
-          )
-        }
+        </form> */}
+        
       </div>
 
       {/* Add a new Specialization */}

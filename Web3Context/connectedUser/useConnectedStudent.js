@@ -25,9 +25,13 @@ export function useConnectedStudent() {
             const accounts = await ethereum.request({
               method: "eth_requestAccounts",
             });
-            let [student, id] = await UBB.verifyByAddress(accounts[0]);
-            setStudentInfo(student);
-            setStudentInfo((values) => ({...values, ["id"]: id}));
+            try {
+              let [student, id] = await UBB.verifyByAddress(accounts[0]);
+              setStudentInfo(student);
+              setStudentInfo((values) => ({ ...values, ["id"]: id }));
+            } catch (e) {
+              console.log(e);
+            }
           }
           getData();
         } else {

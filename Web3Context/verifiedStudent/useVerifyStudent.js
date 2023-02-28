@@ -20,7 +20,6 @@ export function useVerifyStudent() {
             signer
           );
           const [student, id] = await UBB.verifyByID(studentID);
-          console.log(student);
           return { ...student, id: id };
         } else {
           console.log(error);

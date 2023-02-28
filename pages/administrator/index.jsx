@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import {Faculty, Specialization, Student} from '../components'
+import { Specialization, Student} from '../../components'
 
 const styles = {
   adminpanel: 'h-screen w-screen px-[5%] py-[10%] flex flex-row bg-[#21242c]',
@@ -10,7 +10,7 @@ const styles = {
 }
 
 const Administrator = () => {
-  const [currentMenu, setCurrentMenu] = useState('Faculty')
+  const [currentMenu, setCurrentMenu] = useState('Specialization')
 
   function handleClick(show) {
     setCurrentMenu(show);
@@ -21,13 +21,11 @@ const Administrator = () => {
     <div className={styles.adminpanel}>
       <div className='app__effect z-0'/>
       <div className={styles.adminpanel__sidebar}>
-        <h1 className={styles.sidebar__element} onClick={() => handleClick('Faculty')}>Faculty</h1>
         <h1 className={styles.sidebar__element} onClick={() => handleClick('Specialization')}>Specialization</h1>
         <h1 className={styles.sidebar__element} onClick={() => handleClick('Student')}>Student</h1>
       </div>
       <div className={styles.adminpanel__content}>
         {
-          currentMenu=='Faculty' ? (<Faculty/>) :
           currentMenu=='Specialization' ? (<Specialization/>) :
           (<Student />)
         }

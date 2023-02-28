@@ -1,14 +1,10 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { useAccount } from "wagmi";
 import { getSession, useSession } from "next-auth/react";
 
-import {useConnectedStudent} from "./connectedUser/useConnectedStudent";
-import {useVerifyStudent} from "./verifiedStudent/useVerifyStudent";
+import { useConnectedStudent } from "./connectedUser/useConnectedStudent";
+import { useVerifyStudent } from "./verifiedStudent/useVerifyStudent";
+import { useStudents } from "./students/useStudents";
 
 const Web3Context = createContext(null);
 
@@ -19,8 +15,17 @@ export const Web3Provider = ({ children }) => {
   const { isConnected } = useAccount();
   const { status } = useSession();
 
-  const {studentInfo} = useConnectedStudent();
-  const {verifyByID, verifyByAddress} = useVerifyStudent();
+  const { studentInfo } = useConnectedStudent();
+  const { verifyByID, verifyByAddress } = useVerifyStudent();
+  const {
+    addStudent,
+    requestStudentStartsSpecialization,
+    studentFinished,
+    studentSuspended,
+    studentActivated,
+    studentChangeAddress,
+    studentChangeIpfsUrl,
+  } = useStudents();
 
   //*If the user is authenticated in session and connected to the chain, getfrom the session
   useEffect(() => {
@@ -46,7 +51,14 @@ export const Web3Provider = ({ children }) => {
         isUserLoggedIn,
         studentInfo,
         verifyByAddress,
-        verifyByID
+        verifyByID,
+        addStudent,
+        requestStudentStartsSpecialization,
+        studentFinished,
+        studentSuspended,
+        studentActivated,
+        studentChangeAddress,
+        studentChangeIpfsUrl,
       }}
     >
       {children}
