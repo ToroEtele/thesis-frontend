@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { VscRunAll } from "react-icons/vsc";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import { red } from "@mui/material/colors";
 
 import { useWeb3Provider } from "../../Web3Context/Web3Context";
 import AddStudent from "../Administrator/modals/AddStudent";
@@ -21,17 +22,8 @@ const styles = {
   student__data: "text-green-400 font-semibold mb-[1%] text-xl",
   title: "text-white self-center font-bold mb-[9%]",
   student__address: "w-[100%] h-[70%] flex flex-col",
-  modify:
-    "mt-[8%] self-center px-[5%] py-[2%] rounded-2xl text-red-400 border-2 border-red-400 font-bold",
+  student__modify: "mt-[5%] self-center",
   modificationConatiner: "flex flex-col h-[100%] w-[60%]",
-  adressMod:
-    "flex flex-col h-[90%] w-[48%] p-[4%] bg-white/20 backdrop-blur rounded-2xl",
-  specMod:
-    "flex flex-col h-[90%] w-[48%] p-[4%] bg-white/20 backdrop-blur rounded-2xl",
-  statusMod:
-    "flex flex-col h-[40%] p-[2%] w-[100%] bg-white/20 backdrop-blur rounded-2xl",
-  statusBar: "flex flex-row h-[100%] w-[100%] justify-between",
-  option: "w-[30%] text-gray-400 text-center cursor-pointer",
   student__add:
     "flex flex-col h-[100%] w-[50%] p-[2%] bg-white/20 backdrop-blur rounded-2xl",
   student__add_form: "flex flex-col h-[90%]",
@@ -90,10 +82,10 @@ const Student = () => {
             <p className={styles.student__label}>Number of learnings at UBB:</p>
             <h2 className={styles.student__data}>{student.learnings.length}</h2>
 
-            <Link href={`/administrator/${student.id}`}>
-              <button className={styles.modify} onClick={startModification}>
+            <Link href={`/administrator/${student.id}`} className={styles.student__modify}>
+              <Button variant="contained" color="error"  onClick={startModification}>
                 Modify student data
-              </button>
+              </Button>
             </Link>
           </div>
         )}

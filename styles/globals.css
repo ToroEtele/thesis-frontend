@@ -187,3 +187,7 @@ a {
 .box:hover::after {
   right: 5px;
 }
+
+input {
+  color:black;
+}
