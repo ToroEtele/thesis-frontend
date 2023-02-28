@@ -1,9 +1,36 @@
 import { useState, useEffect } from "react";
+import { GoPerson } from "react-icons/go";
+import Image from "next/image";
+import {motion} from "framer-motion";
 
 import { useWeb3Provider } from "../../Web3Context/Web3Context";
 
-import { GoPerson } from "react-icons/go";
-import Image from "next/image";
+const variants = {
+  initial: {
+    x: 150,
+    z: 10,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+
+    transition: {
+      x: { type: "spring", stiffness: 100, damping: 20 },
+      opacity: { duration: 0.2 },
+      duration: 2,
+    },
+  },
+  exit: {
+    x: -1000,
+
+    transition: {
+      x: { type: "spring", stiffness: 150, damping: 30 },
+      opacity: { duration: 0.1 },
+      duration: 2,
+    },
+  },
+};
 
 const styles = {
   card: "h-[100%] w-[100%] p-[3%] flex flex-row items-center font-bold border card",
@@ -22,7 +49,7 @@ const styles = {
   university: "flex items-center justify-center font-bold text-[120%]",
 };
 
-const Card = () => {
+const Card = ({ index }) => {
   const [color, setColor] = useState("text-white/100");
   const [borderColor, setBorderColor] = useState("border-white/100");
   const [backgroundColor, setBackgroundColor] = useState(
@@ -33,16 +60,16 @@ const Card = () => {
 
   useEffect(() => {
     if (Object.keys(studentInfo).length != 0) {
-      if (studentInfo.finished == true) {
+      if (studentInfo.learnings[index].state == 2) {
         setColor("text-blue-700/100");
         setBorderColor("border-blue-700/100");
         setBackgroundColor("border-blue-700/100");
-      } else if (studentInfo.suspended == true) {
+      } else if (studentInfo.learnings[index].state == 1) {
         setColor("text-red-700/100");
         setBorderColor("border-red-700/100");
         setBackgroundColor("border-red-700/100");
       } else if (
-        studentInfo.started != 0 &&
+        studentInfo.learnings[index].state == 0 &&
         JSON.stringify(studentInfo) != "{}"
       ) {
         setColor("text-green-700/100");
@@ -57,7 +84,14 @@ const Card = () => {
   }, [studentInfo]);
 
   return (
-    <div className={styles.card + " " + borderColor}>
+    <motion.div
+      className={styles.card + " " + borderColor}
+      key={index}
+      variants={variants}
+      animate="animate"
+      initial="initial"
+      exit="exit"
+    >
       <div className="background" />
 
       <div className={styles.content}>
@@ -69,7 +103,13 @@ const Card = () => {
         <div className={styles.inner__content}>
           <div className={styles.image}>
             {studentInfo.ipfsUrl ? (
-              <Image className="rounded-xl" src={studentInfo.ipfsUrl} width={130} height={150}/>
+              <Image
+                className="rounded-xl"
+                src={studentInfo.ipfsUrl}
+                width={130}
+                height={150}
+                alt="student-image"
+              />
             ) : (
               <GoPerson />
             )}
@@ -77,9 +117,7 @@ const Card = () => {
           <div className={styles.data}>
             <h2 className={styles.label}>Name</h2>
             <p className={styles.info + " " + color}>
-              {!studentInfo.name
-                ? "Firstname Lastname"
-                : studentInfo.name}
+              {!studentInfo.name ? "Firstname Lastname" : studentInfo.name}
             </p>
             <h2 className={styles.label}>CNP</h2>
             <p className={styles.info + " " + color}>
@@ -87,13 +125,15 @@ const Card = () => {
             </p>
             <h2 className={styles.label}>Faculty</h2>
             <p className={styles.info + " " + color}>
-              {!studentInfo.name ? "Your Faculty" : studentInfo.learnings[0].faculty}
+              {!studentInfo.name
+                ? "Your Faculty"
+                : studentInfo.learnings[index].faculty}
             </p>
             <h2 className={styles.label}>Specialization</h2>
             <p className={styles.info + " " + color}>
               {!studentInfo.name
                 ? "Your Specialization"
-                : studentInfo.learnings[0].specialization}
+                : studentInfo.learnings[index].specialization}
             </p>
           </div>
         </div>
@@ -110,7 +150,7 @@ const Card = () => {
             : studentInfo.walletAddress}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -4,7 +4,7 @@ import { HomeContent } from "../components";
 
 
 const styles = {
-  app: "w-screen h-screen pb-[6%] pt-[8%] px-[10%] flex flex-col bg-[#21242c]",
+  app: "w-screen h-screen pb-[6%] pt-[8%] px-[8%] flex flex-col bg-[#21242c]",
   app__effect: "app__effect z-0",
 };
 
