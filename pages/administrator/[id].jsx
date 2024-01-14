@@ -3,10 +3,35 @@ import {
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, useFormikContext, FormikConsumer } from "formik";
 
 import { useWeb3Provider } from "../../Web3Context/Web3Context";
 import { Button } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
+
+const variants = {
+  initial: {
+    x: 50,
+    opacity: 0,
+  },
+  animate: {
+    x: 0,
+    opacity: 1,
+
+    transition: {
+      x: { type: "spring", stiffness: 100, damping: 20 },
+      opacity: { duration: 0.2 },
+      duration: 2,
+    },
+  },
+  exit: {
+    x: -150,
+    transition: {
+      x: { type: "spring", stiffness: 150, damping: 30 },
+      opacity: { duration: 0.2 },
+    },
+  },
+};
 
 const styles = {
   modify:
@@ -65,7 +90,9 @@ const Modify = ({ id }) => {
             Learnings:{" "}
             {Object.keys(student).length != 0 ? student.learnings.length : "0"}
           </h1>
-          <LearningCard student={student} index={index} id={id} />
+          <AnimatePresence mode="wait">
+            <LearningCard student={student} index={index} id={id} />
+          </AnimatePresence>
         </div>
         <MdOutlineArrowForwardIos
           className="text-4xl text-gray-300/50 ml-4 cursor-pointer"
@@ -79,18 +106,17 @@ const Modify = ({ id }) => {
           <p>Current Address</p>
           <p>{student?.walletAddress ? student.walletAddress : ""}</p>
           <Formik
-            initialValues={{ name: "" }}
+            initialValues={{ address: "" }}
             onSubmit={(values) => {
-              requestStudentStartsSpecialization(id, values.name);
-              setIsAdding(false);
+              console.log(values);
             }}
           >
             <Form className="flex flex-col mt-2">
               <Field
-                name="name"
+                name="address"
                 placeholder="Place the new address"
                 className="px-5 py-2 rounded outline-0"
-                autoComplete='off'
+                autoComplete="off"
               />
               <div className="w-[100%] flex justify-between mt-5">
                 <Button
@@ -100,13 +126,17 @@ const Modify = ({ id }) => {
                 >
                   Submit
                 </Button>
-                <Button
-                  className="w-[48%] bg-blue-600"
-                  variant="contained"
-                  onClick={() => setIsAdding(false)}
-                >
-                  Cancel
-                </Button>
+                <FormikConsumer>
+                  {({ resetForm }) => (
+                    <Button
+                      className="w-[48%] bg-blue-600"
+                      variant="contained"
+                      onClick={resetForm}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </FormikConsumer>
               </div>
             </Form>
           </Formik>
@@ -114,18 +144,17 @@ const Modify = ({ id }) => {
         <div className={styles.modify__changers}>
           <h1 className={styles.modify__title}>Change IPFS URL:</h1>
           <Formik
-            initialValues={{ name: "" }}
+            initialValues={{ ipfs: "" }}
             onSubmit={(values) => {
-              requestStudentStartsSpecialization(id, values.name);
-              setIsAdding(false);
+              console.log(values);
             }}
           >
             <Form className="flex flex-col mt-2">
               <Field
-                name="name"
+                name="ipfs"
                 placeholder="Place the new IPFS url"
                 className="px-5 py-2 rounded outline-0 text-black"
-                autoComplete='off'
+                autoComplete="off"
               />
               <div className="w-[100%] flex justify-between mt-5">
                 <Button
@@ -135,13 +164,17 @@ const Modify = ({ id }) => {
                 >
                   Submit
                 </Button>
-                <Button
-                  className="w-[48%] bg-blue-600"
-                  variant="contained"
-                  onClick={() => setIsAdding(false)}
-                >
-                  Cancel
-                </Button>
+                <FormikConsumer>
+                  {({ resetForm }) => (
+                    <Button
+                      className="w-[48%] bg-blue-600"
+                      variant="contained"
+                      onClick={resetForm}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </FormikConsumer>
               </div>
             </Form>
           </Formik>
@@ -161,7 +194,12 @@ export default Modify;
 function LearningCard({ student, index, id }) {
   const [isAdding, setIsAdding] = React.useState(false);
 
-  const { requestStudentStartsSpecialization } = useWeb3Provider();
+  const {
+    requestStudentStartsSpecialization,
+    studentFinished,
+    studentSuspended,
+    studentActivated,
+  } = useWeb3Provider();
 
   const learning = student?.learnings ? student?.learnings[index] : [];
   const status =
@@ -172,8 +210,32 @@ function LearningCard({ student, index, id }) {
     ) : (
       <p className="text-blue-500">Finished</p>
     );
+
+  const handleRequestActivate = () => {
+    if (learning?.state == 1) {
+      studentActivated(student.id, learning.specialization);
+    }
+  };
+  const handleRequestSuspend = () => {
+    console.log("Suspension requested");
+    if (learning?.state == 0) {
+      studentSuspended(student.id, learning.specialization);
+    }
+  };
+  const handleRequestFinish = () => {
+    if (learning?.state == 0) {
+      studentFinished(student.id, learning.specialization);
+    }
+  };
   return (
-    <div className={styles.modify__card}>
+    <motion.div
+      className={styles.modify__card}
+      key={index}
+      variants={variants}
+      animate="animate"
+      initial="initial"
+      exit="exit"
+    >
       {Object.keys(student).length != 0 &&
       index < student?.learnings?.length ? (
         <div className={styles.modify_content}>
@@ -188,7 +250,7 @@ function LearningCard({ student, index, id }) {
           <div className={styles.modify__statuschange}>
             <div
               className={styles.modify__option + " hover:text-green-500"}
-              // onClick={}
+              onClick={() => handleRequestActivate()}
             >
               <p>
                 If the student has been suspended, but his studies continue,
@@ -197,7 +259,7 @@ function LearningCard({ student, index, id }) {
             </div>
             <div
               className={styles.modify__option + " hover:text-red-500"}
-              // onClick={}
+              onClick={() => handleRequestSuspend()}
             >
               <p>
                 If you want to suspend a student, set his state to suspended.
@@ -205,7 +267,7 @@ function LearningCard({ student, index, id }) {
             </div>
             <div
               className={styles.modify__option + " hover:text-blue-500"}
-              // onClick={}
+              onClick={() => handleRequestFinish()}
             >
               <p>
                 Caution! Setting the students finished state to true is final!
@@ -257,6 +319,6 @@ function LearningCard({ student, index, id }) {
           </Form>
         </Formik>
       )}
-    </div>
+    </motion.div>
   );
 }

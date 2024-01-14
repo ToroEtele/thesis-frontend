@@ -35,11 +35,17 @@ const Connect = () => {
         redirect: false,
         callbackUrl: "/",
       });
-      console.log('Authentication finished.');
+
+      console.log("Authentication finished.");
     };
 
     if (status === "unauthenticated" && isConnected) {
-      console.log('Authentication called because: status='+status+', isConnected='+isConnected);
+      console.log(
+        "Authentication called because: status=" +
+          status +
+          ", isConnected=" +
+          isConnected
+      );
       handleAuth();
     }
   }, [status, isConnected]);

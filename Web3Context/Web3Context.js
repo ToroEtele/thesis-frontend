@@ -10,22 +10,13 @@ const Web3Context = createContext(null);
 
 export const Web3Provider = ({ children }) => {
   const [accountInfo, setAccountInfo] = useState({});
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const { isConnected } = useAccount();
   const { status } = useSession();
 
   const { studentInfo } = useConnectedStudent();
-  const { verifyByID, verifyByAddress } = useVerifyStudent();
-  const {
-    addStudent,
-    requestStudentStartsSpecialization,
-    studentFinished,
-    studentSuspended,
-    studentActivated,
-    studentChangeAddress,
-    studentChangeIpfsUrl,
-  } = useStudents();
+  const { ...verifyStudentsData } = useVerifyStudent();
+  const { ...useStudentsData } = useStudents();
 
   //*If the user is authenticated in session and connected to the chain, getfrom the session
   useEffect(() => {
@@ -48,17 +39,9 @@ export const Web3Provider = ({ children }) => {
       value={{
         accountInfo,
         setAccountInfo,
-        isUserLoggedIn,
         studentInfo,
-        verifyByAddress,
-        verifyByID,
-        addStudent,
-        requestStudentStartsSpecialization,
-        studentFinished,
-        studentSuspended,
-        studentActivated,
-        studentChangeAddress,
-        studentChangeIpfsUrl,
+        ...verifyStudentsData,
+        ...useStudentsData,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import { Formik, Field, Form } from "formik";
 import { AiOutlineUpload } from "react-icons/ai";
 
 import uploadToIpfs from "../../../utils/ipsf";
+import { useWeb3Provider } from "../../../Web3Context/Web3Context";
 
 const style = {
   position: "absolute",
@@ -25,14 +26,17 @@ const style = {
 const styles = {
   add__form: "w-[100%] h-[100%] p-[3%] flex flex-col ",
   add__title:
-    "w-[100%] pb-[5%] mb-[10%] text-center font-bold border-b border-b-2 border-black",
+    "w-[100%] pb-[5%] mb-[5%] text-center font-bold border-b border-b-2 border-black",
   add__inputs: " border border-2 p-3 rounded-2xl",
   add__labels: "mt-[3%] pb-3",
   add__horizontal: "flex flex-row mt-[10%] gap-2",
+  add__button: "mt-[10%] bg-blue-500",
 };
 
 const AddStudent = ({ isAddStudentOpen, setIsAddStudent }) => {
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(undefined);
+
+  const { addStudent } = useWeb3Provider();
 
   const handleFileUpload = (e) => {
     if (!e.target.files) {
@@ -41,6 +45,25 @@ const AddStudent = ({ isAddStudentOpen, setIsAddStudent }) => {
     const x = e.target.files[0];
     setFile(x);
     //uploadToIpfs(file);
+  };
+
+  const handleSubmit = async (values) => {
+    // console.log(values);
+    // console.log(file);
+    if (file != undefined) {
+      try {
+        const ipfs = await uploadToIpfs(file);
+        addStudent({
+          name: values.name,
+          id: values.cnp,
+          ipfsUrl: ipfs[0].path,
+          walletAddress: values.address,
+          specialization: values.specialization,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -63,7 +86,7 @@ const AddStudent = ({ isAddStudentOpen, setIsAddStudent }) => {
             specialization: "",
           }}
           onSubmit={(values) => {
-            setIsAddStudent(false);
+            handleSubmit(values);
           }}
         >
           <Form className={styles.add__form}>
@@ -108,16 +131,18 @@ const AddStudent = ({ isAddStudentOpen, setIsAddStudent }) => {
                 component="label"
                 variant="outlined"
                 startIcon={<AiOutlineUpload />}
-                sx={{ marginRight: "1rem" }}
+                sx={{ marginLeft: "auto" }}
               >
                 Upload image
                 <input type="file" hidden onChange={handleFileUpload} />
               </Button>
-              {/* testFile.csv in <i>src dir</i>
-              <Box>{filename}</Box> */}
             </div>
 
-            <Button type="submit" sx={{ mt: "10%" }} variant="contained">
+            <Button
+              type="submit"
+              className={styles.add__button}
+              variant="contained"
+            >
               Add
             </Button>
           </Form>

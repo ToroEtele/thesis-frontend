@@ -25,13 +25,13 @@ a {
 
 .app__effect {
   position: absolute;
-    left: 0px;
-    top: 0px;
-    height: 100%;
-    width: 100%;
-    background-image: url("../assets/effect.png");
-    background-repeat: no-repeat;
-    mix-blend-mode: overlay;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-image: url("../assets/effect.png");
+  background-repeat: no-repeat;
+  mix-blend-mode: overlay;
 }
 
 .app__effect1 {
@@ -55,7 +55,7 @@ a {
 }
 
 .background {
-  position:absolute;
+  position: absolute;
   height: 100%;
   width: 100%;
   left: 0;
@@ -76,7 +76,7 @@ a {
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -90,8 +90,8 @@ a {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -102,22 +102,22 @@ a {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .inp:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 .inp:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 .inp:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  transform: translateX(16px);
 }
 
 /* Rounded sliders */
@@ -129,16 +129,16 @@ a {
   border-radius: 50%;
 }
 
-.bar{
+.bar {
   border-bottom: 1px solid white;
 }
 
-.inp2{
+.inp2 {
   outline: 0;
-  padding-left:6px;
+  padding-left: 6px;
   line-height: 30px;
-  background-color: #777e90;
-  color: white;
+  color: black;
+  background-color: white;
   border-radius: 10px;
 }
 
@@ -155,14 +155,14 @@ a {
 
 .box::before,
 .box::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 10px;
   width: 40%;
   height: 10px;
-  box-shadow: 0 5px 14px rgba(0,0,0,.7);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.7);
   z-index: -1;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .box::before {
@@ -177,7 +177,7 @@ a {
 
 .box:hover::before,
 .box:hover::after {
-  box-shadow: 0 2px 14px rgba(0,0,0,.4);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
 }
 
 .box:hover::before {
@@ -189,5 +189,5 @@ a {
 }
 
 input {
-  color:black;
+  color: black;
 }

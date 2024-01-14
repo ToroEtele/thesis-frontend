@@ -46,7 +46,6 @@ const CardContainer = () => {
   }, [isConnected, studentInfo]);
 
   const handleNext = () => {
-    console.log(index);
     if (index < studentInfo?.learnings.length - 1) {
       setIndex((prev) => prev + 1);
     } else {

@@ -1,18 +1,19 @@
 import { useAccount } from "wagmi";
-const ethers = require("ethers");
+import { ethers } from "ethers";
 
-const ContractAbi = require("../../../smart-contract_v2/artifacts/contracts/UBB.sol/UBB.json");
-const constractAddress = "0x583598E081725DeB6CE6b52676d7E4A1a92df987";
+import { ContractAbi, ContractAddress } from "../__common";
 
 export function useStudents() {
   const { isConnected } = useAccount();
 
   const addStudent = async (student) => {
-    try {
-      const ubb = initializeContract(isConnected);
-      await ubb.addStudent(student);
-    } catch (e) {
-      console.log(e);
+    if (student.ipfsUrl != undefined) {
+      try {
+        const ubb = initializeContract(isConnected);
+        await ubb.addStudent(student);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -25,7 +26,7 @@ export function useStudents() {
     }
   };
 
-  const studentFinished = async (id) => {
+  const studentFinished = async (id, specialization) => {
     try {
       const ubb = initializeContract(isConnected);
       await ubb.studentFinished(id, specialization);
@@ -34,7 +35,7 @@ export function useStudents() {
     }
   };
 
-  const studentSuspended = async (id) => {
+  const studentSuspended = async (id, specialization) => {
     try {
       const ubb = initializeContract(isConnected);
       await ubb.studentSuspended(id, specialization);
@@ -43,7 +44,7 @@ export function useStudents() {
     }
   };
 
-  const studentActivated = async (id) => {
+  const studentActivated = async (id, specialization) => {
     try {
       const ubb = initializeContract(isConnected);
       await ubb.studentActivated(id, specialization);
@@ -89,7 +90,7 @@ function initializeContract(isConnected) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const UBB = new ethers.Contract(
-          constractAddress,
+          ContractAddress,
           ContractAbi.abi,
           signer
         );

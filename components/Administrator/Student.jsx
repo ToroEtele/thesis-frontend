@@ -12,7 +12,7 @@ const styles = {
   student__panel:
     "flex flex-col h-[100%] w-[40%] p-[2%] bg-white/20 backdrop-blur rounded-2xl",
   student__panel_header:
-    "h-[10%] w-[100%] flex flex-row justify-center text-white font-semibold",
+    "h-[10%] w-[100%] mb-[5%] flex flex-row justify-center text-white font-semibold",
   student__form: "w-[100%] h-[20%] flex flex-col",
   student__inputs: "h-[40px] outline-none mb-[5%] px-[4%] rounded bg-white/80",
   students__run:
@@ -82,8 +82,16 @@ const Student = () => {
             <p className={styles.student__label}>Number of learnings at UBB:</p>
             <h2 className={styles.student__data}>{student.learnings.length}</h2>
 
-            <Link href={`/administrator/${student.id}`} className={styles.student__modify}>
-              <Button variant="contained" color="error"  onClick={startModification}>
+            <Link
+              href={`/administrator/${student.id}`}
+              className={styles.student__modify}
+            >
+              <Button
+                variant="contained"
+                color="error"
+                className="bg-red-500"
+                onClick={startModification}
+              >
                 Modify student data
               </Button>
             </Link>
@@ -96,11 +104,28 @@ const Student = () => {
           <h1>Add new students</h1>
         </div>
         <div className={styles.button__container}>
-          <Button variant="contained" onClick={() => setIsAddStudentOpen(true)}>
+          <Button
+            className="bg-blue-600"
+            variant="contained"
+            onClick={() => setIsAddStudentOpen(true)}
+          >
             Add a new student
           </Button>
-          <Button variant="contained">Add multiple students</Button>
+          <Link href="/administrator/import-students">
+            <Button className="bg-blue-600" variant="contained">
+              Add multiple students
+            </Button>
+          </Link>
         </div>
+
+        <p className="px-[7%] mt-[10%] text-white/50">
+          You can add students manually by clicking on the first button above or
+          you can import a list of students by clicking the second button.
+        </p>
+        <p className="px-[7%] mt-[5%] text-white/50">
+          Don't forget, adding a new student leaves permanent marks of the data
+          on the blockchain.
+        </p>
       </div>
 
       <AddStudent
@@ -112,49 +137,3 @@ const Student = () => {
 };
 
 export default Student;
-
-// {
-//   isModificationStarted ? (
-//     <div className={styles.modificationConatiner}>
-//   <div className='flex flex-row justify-between h-[70%] w-[100%]'>
-//     <div className={styles.adressMod}>
-//       <h1 className={styles.title}>Change Address</h1>
-//       <form name='modifyAddress' onSubmit={requestAddressModification} className={styles.student__address}>
-//         <input type="text" id="newAddress" placeholder='New address of the student' className={styles.student__inputs}/>
-//         <input type="text" id="newAddress1" placeholder='Repeat the address' className={styles.student__inputs}/>
-//         <button className={styles.students__run} type='submit'>
-//           <VscRunAll className={styles.run__logo}/>
-//         </button>
-//       </form>
-//     </div>
-//     <div className={styles.specMod}>
-//     <h1 className={styles.title}>Change Specialization</h1>
-//     <form name='modifySpecialization' onSubmit={requestAddressModification} className={styles.student__address}>
-//         <input type="text" id="newAddress" placeholder='New specialization of the student' className={styles.student__inputs}/>
-//         <input type="text" id="newAddress1" placeholder='Repeat the specialization' className={styles.student__inputs}/>
-//         <button className={styles.students__run} type='submit'>
-//           <VscRunAll className={styles.run__logo}/>
-//         </button>
-//       </form>
-//     </div>
-//   </div>
-
-//   <div className={styles.statusMod}>
-//     <h1 className='text-white self-center font-bold mb-[3%]'>Change Status</h1>
-//     <div className={styles.statusBar}>
-//       <div className={styles.option + ' hover:text-green-500'} onClick={requestEnableStudent}>
-//         <p>If the student has been suspended, but his studies continue, mark as active student.</p>
-//       </div>
-//       <div className={styles.option + ' hover:text-red-500'} onClick={requestSuspendStudent}>
-//         <p>If you want to suspend a student, set his state to suspended.</p>
-//       </div>
-//       <div className={styles.option + ' hover:text-blue-500'} onClick={requestFinishStudent}>
-//         <p>Caution! Setting the students finished state to true is final!</p>
-//       </div>
-//     </div>
-//   </div>
-// </div>
-//   ) : (
-
-//   )
-// }

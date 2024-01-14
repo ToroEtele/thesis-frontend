@@ -8,7 +8,6 @@ import { useWeb3Provider } from "../../Web3Context/Web3Context";
 const variants = {
   initial: {
     x: 150,
-    z: 10,
     opacity: 0,
   },
   animate: {
@@ -22,12 +21,10 @@ const variants = {
     },
   },
   exit: {
-    x: -1000,
-
+    x: -150,
     transition: {
       x: { type: "spring", stiffness: 150, damping: 30 },
-      opacity: { duration: 0.1 },
-      duration: 2,
+      opacity: { duration: 0.2 },
     },
   },
 };
@@ -60,10 +57,11 @@ const Card = ({ index }) => {
 
   useEffect(() => {
     if (Object.keys(studentInfo).length != 0) {
+      console.log(studentInfo.learnings[index].state);
       if (studentInfo.learnings[index].state == 2) {
-        setColor("text-blue-700/100");
-        setBorderColor("border-blue-700/100");
-        setBackgroundColor("border-blue-700/100");
+        setColor("text-blue-600/100");
+        setBorderColor("border-blue-600/100");
+        setBackgroundColor("border-blue-600/100");
       } else if (studentInfo.learnings[index].state == 1) {
         setColor("text-red-700/100");
         setBorderColor("border-red-700/100");
@@ -81,7 +79,7 @@ const Card = ({ index }) => {
       setBorderColor("border-white/100");
       setBackgroundColor("bg-gradient-to-r from-white/100");
     }
-  }, [studentInfo]);
+  }, [studentInfo,index]);
 
   return (
     <motion.div
